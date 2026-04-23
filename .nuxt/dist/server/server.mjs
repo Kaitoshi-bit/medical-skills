@@ -1,0 +1,1 @@
+export { default } from "file:///C:/Users/user/Desktop/SportMed/node_modules/@nuxt/vite-builder/dist/vite-node-entry.mjs"

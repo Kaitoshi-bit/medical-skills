@@ -1,0 +1,202 @@
+// ---------- Шрифты ----------
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,700;14..32,900&family=Oswald:wght@400;500;700&display=swap');
+
+:root {
+  --bg: #E8E0D5;
+  --text: #1A1A1A;
+  --red: #C41E3A;
+  --gray: #666666;
+  --card-bg: #1A1A1A;
+  --card-text: #FFFFFF;
+  --border: 2px solid #1A1A1A;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--bg);
+  position: relative;
+}
+
+/* ---------- Текстура шума (noise) ---------- */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.08;
+}
+
+/* ---------- Виньетка + чернильные пятна (radial-gradient) ---------- */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(circle at 20% 30%, rgba(0,0,0,0.15) 0%, transparent 60%),
+              radial-gradient(circle at 90% 80%, rgba(0,0,0,0.2) 0%, transparent 70%),
+              repeating-radial-gradient(circle at 0% 0%, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 2px, transparent 2px, transparent 8px);
+  mix-blend-mode: multiply;
+}
+
+/* ---------- Заголовки (Oswald, uppercase) ---------- */
+h1, h2, h3, h4, .text-h1, .text-h2, .text-h3, .text-h4, .v-card-title {
+  font-family: 'Oswald', sans-serif !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+}
+
+/* Адаптивная типографика */
+h1, .text-h4 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+h2, .text-h5 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+/* ---------- Карточки (тёмные, с наклоном) ---------- */
+.v-card {
+  background: var(--card-bg) !important;
+  color: var(--card-text) !important;
+  border: var(--border);
+  border-radius: 0 !important;
+  transition: all 0.3s ease;
+  transform: rotate(0deg);
+}
+
+.v-card:hover {
+  transform: translateY(-6px) scale(1.01) rotate(-0.5deg);
+  box-shadow: 12px 16px 24px rgba(0,0,0,0.2);
+}
+
+/* ---------- Кнопки (красные, квадратные) ---------- */
+.v-btn {
+  border-radius: 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+.v-btn--variant-flat {
+  background: var(--red) !important;
+  color: white !important;
+  border: none;
+}
+.v-btn--variant-flat:hover {
+  background: #a01830 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+.v-btn--variant-text {
+  color: var(--red) !important;
+}
+.v-btn--variant-outlined {
+  border: 2px solid var(--red) !important;
+  color: var(--red) !important;
+}
+
+/* ---------- Линии-разделители ---------- */
+.divider-custom {
+  width: 120px;
+  height: 2px;
+  background: var(--red);
+  margin: 1rem 0;
+}
+
+/* ---------- Маленькие квадратные маркеры ---------- */
+.marker-square {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+  margin-right: 8px;
+}
+
+/* ---------- Год 2025 в углу ---------- */
+.year-corner {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(0,0,0,0.05);
+  pointer-events: none;
+  z-index: 10;
+  user-select: none;
+  letter-spacing: 8px;
+}
+
+/* ---------- Анимация появления (Intersection Observer) ---------- */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Кастомный скролл ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #D4C9B8;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--red);
+}
+/* Фиксация фильтров – предотвращаем любые смещения */
+.filters-static .v-field {
+  background-color: rgba(232, 224, 213, 0.8) !important;
+  border: 1px solid #1A1A1A !important;
+  border-radius: 0 !important;
+}
+
+.filters-static .v-field__input {
+  color: #1A1A1A !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  padding: 10px 12px !important;
+}
+
+.filters-static .v-label {
+  color: #1A1A1A !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  opacity: 0.8 !important;
+}
+
+.filters-static .v-select .v-field__append-inner,
+.filters-static .v-input__details {
+  display: none !important; /* убираем лишний отступ под полями */
+}
+
+.filters-static .v-row {
+  margin: 0 !important;
+}
+.filters-static .v-col {
+  padding: 0 8px !important;
+}
